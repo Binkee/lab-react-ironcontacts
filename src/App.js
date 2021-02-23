@@ -35,6 +35,30 @@ export default class App extends Component {
   }
 
 
+  handleSortPop = () => {
+    console.log('Sort works')
+    //always clone the arr before mutating it
+    let ClonedContacts = JSON.parse(JSON.stringify(this.state.contacts))
+
+    ClonedContacts.sort((first, second) => {
+        if (first.popularity > second.popularity) {
+            return 1
+        }
+        else if (first.popularity < second.popularity) {
+            return -1
+        }
+        else {
+            return 0
+        }
+    })
+
+    //always make sure you update the state so that it can re-render
+    this.setState({
+        contacts: ClonedContacts
+    })
+}
+
+
     handleAdd = () => {
       let randomIndex = Math.floor(Math.random() * contacts.length )
       let randomContacts = contacts[randomIndex]
@@ -70,6 +94,7 @@ export default class App extends Component {
         <h3>Name</h3>
         <h3>Popularity</h3>
         <button onClick={this.handleSort} >Sort</button>
+        <button onClick={this.handleSortPop} >Sort by Popularity</button>
         <button onClick={this.handleAdd} >Add</button>
         {this.state.contacts.map((singleContact, index)=>{
           return ( 
